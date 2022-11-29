@@ -163,7 +163,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 			if (dx != 0)
 			{
-				float DeltaX = (float)dx * Sensitivity;
+				float DeltaX = (float)dx * Sensitivity * 10;
 
 				X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
 				Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
@@ -172,7 +172,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 			if (dy != 0)
 			{
-				float DeltaY = (float)dy * Sensitivity;
+				float DeltaY = (float)dy * Sensitivity * 10;
 
 				Y = rotate(Y, DeltaY, X);
 				Z = rotate(Z, DeltaY, X);
@@ -204,7 +204,8 @@ update_status ModuleCamera3D::Update(float dt)
 		break;
 	}
 	
-	
+	Position += newPos;
+	Reference += newPos;
 
 	// Recalculate matrix -------------
 	CalculateViewMatrix();

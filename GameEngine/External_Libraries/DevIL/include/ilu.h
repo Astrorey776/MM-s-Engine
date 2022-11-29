@@ -22,7 +22,7 @@
 #define __ILU_H__
 
 //#include "DevIL/include/il.h"
-#include "il.h"
+#include <il.h>
 
 #ifdef __cplusplus
 extern "C" {
