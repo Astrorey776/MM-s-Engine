@@ -21,6 +21,7 @@ void M_Mesh::meshRenderer(mat4x4 globalT, TextureTypes textureT)
 
 	glBindTexture(GL_TEXTURE_2D, textureID);
 
+
 	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
 
 

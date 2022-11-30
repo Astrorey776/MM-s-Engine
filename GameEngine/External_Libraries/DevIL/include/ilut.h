@@ -97,7 +97,7 @@
 		#endif
 	#endif
 
-#include <ilut_config.h>
+	#include <ilut_config.h>
 #endif
 
 

@@ -89,7 +89,7 @@ M_Mesh* MeshLoader::LoadMesh(aiMesh* importedMesh)
 
 		//uvs
 		our_mesh->vertices[v * VERTEX_ARGUMENTS + 3] = importedMesh->mTextureCoords[0][v].x;
-		our_mesh->vertices[v * VERTEX_ARGUMENTS + 4] = importedMesh->mTextureCoords[0][v].y;
+		our_mesh->vertices[v * VERTEX_ARGUMENTS + 4] = importedMesh->mTextureCoords[0][v].y;	
 	}
 
 

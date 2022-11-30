@@ -42,8 +42,8 @@ uint TextureLoader::LoadTexture(const char* filePath)
 
 	ilGenImages(1, &textureId);
 	ilBindImage(textureId);
-	
-	
+
+
 	bool loaded;
 
 	loaded = ilLoadImage(filePath);
@@ -51,10 +51,11 @@ uint TextureLoader::LoadTexture(const char* filePath)
 	if (!loaded) {
 		LOG("Failed on loading texture %s, %s", filePath, ilGetError());
 	}
-
-
+	
+	
 	
 	//ilLoadImage(filePath);
+
 
 	//ILubyte* data = ilGetData();
 
@@ -75,7 +76,6 @@ uint TextureLoader::LoadTexture(const char* filePath)
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	
 
 
 	glGenerateMipmap(GL_TEXTURE_2D);
