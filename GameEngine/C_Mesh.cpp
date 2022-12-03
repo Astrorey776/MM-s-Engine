@@ -19,6 +19,9 @@ void C_Mesh::InspectorW()
 
 	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen)) {
 
+		ImGui::Checkbox("Render Mesh", &gameObject->renderMesh);
+
+
 		ImGui::TextWrapped("Mesh vertices: "); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(255, 255, 0, 255), std::to_string(gameObject->mesh->num_vertices).c_str());
 
