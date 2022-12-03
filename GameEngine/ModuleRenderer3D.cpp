@@ -238,18 +238,20 @@ bool ModuleRenderer3D::Init()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	//App->camera->Draw();
+	App->camera->Draw();
 
+	BindCamerBuffers(App->camera->sceneCamera);
 
-	// light 0 on cam pos
+	//BindCamerBuffers(App->camera->sceneCamera);
+
 	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
-	for(uint i = 0; i < MAX_LIGHTS; ++i)   
+	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
 
-	//FrameBuffer
-	glBindFramebuffer(GL_FRAMEBUFFER, textureColorbuffer);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	ImGuiSamples::NewFrame(dt);
+
 
 	return UPDATE_CONTINUE;
 }
@@ -258,14 +260,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
 
-	//MeshLoader::Renderer();
-
-	//clear_color = App->dummy->back_window_color;
-
-	//FrameBuffer Donde 0 poner la scene cam
-	glBindFramebuffer(GL_FRAMEBUFFER, App->camera->sceneCamera->cameraBuffer.GetFrameBuffer());
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
 	//Algo temporal. Esto va en un meshrender component
 	for (int i = 1; i < ImGuiSamples::ImH->referenceGameObject->size(); i++) {
@@ -278,16 +272,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 		}
 	}
 	
-	
-
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 
-	//Add gameCamera buffers here
-
-	ImGuiSamples::NewFrame(dt);
-
-
+	ImGuiSamples::Render(dt);
 	SDL_GL_SwapWindow(App->window->window);
 	
 	return UPDATE_CONTINUE;
@@ -332,6 +320,29 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+void ModuleRenderer3D::BindCamerBuffers(CameraClass* cc)
+{
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+	/*glMatrixMode(GL_PROJECTION);
+	
+	glLoadMatrixf(cc->GetProjectionMatrix());*/
+
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	ProjectionMatrix = perspective(60.0f, (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.125f, 512.0f);
+	glLoadMatrixf(&ProjectionMatrix);
+
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(cc->GetViewMatrix());
+	glBindFramebuffer(GL_FRAMEBUFFER, cc->cameraBuffer.GetFrameBuffer());
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+
 }
 
 

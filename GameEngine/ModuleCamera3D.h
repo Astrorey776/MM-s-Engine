@@ -36,7 +36,7 @@ public:
 
 	//void LookAt(const float3& pos);
 
-	float GetProjMatrix();
+	float* GetProjMatrix();
 
 private:
 
@@ -47,7 +47,7 @@ public:
 	float3 X, Y, Z, Position, Reference;
 
 	float lenght;
-	float4x4 rmat;
+	//float4x4 rmat;
 	/*float3 x, y, z;
 	float3 pos, ref;*/
 	float4x4 viewMatrix, viewMatrixInverse, projMatrix;
@@ -67,8 +67,7 @@ public:
 	//Camara de la escena
 	CameraClass* sceneCamera;
 
-
 private:
 
-	float4x4 ViewMatrix, ViewMatrixInverse;
+	
 };
