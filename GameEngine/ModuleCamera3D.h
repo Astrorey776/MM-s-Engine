@@ -21,7 +21,7 @@ public:
 	ModuleCamera3D(Application* app, bool start_enabled = true);
 	~ModuleCamera3D();
 
-	bool Start();
+	bool Init();
 	update_status Update(float dt);
 	bool CleanUp();
 
@@ -36,6 +36,7 @@ public:
 
 	//void LookAt(const float3& pos);
 
+	float GetProjMatrix();
 
 private:
 
@@ -64,9 +65,10 @@ public:
 	//Camara de game
 	CameraClass* gameCamera = nullptr;
 	//Camara de la escena
-	CameraClass sceneCamera;
+	CameraClass* sceneCamera;
+
 
 private:
 
-	mat4x4 ViewMatrix, ViewMatrixInverse;
+	float4x4 ViewMatrix, ViewMatrixInverse;
 };
