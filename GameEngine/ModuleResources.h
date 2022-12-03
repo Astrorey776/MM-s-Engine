@@ -3,12 +3,16 @@
 #include "Globals.h"
 #include "ImMainMenuBar.h"
 #include "physfs.h"
-
+#include "T_FileInfo.h"
 #define NEW_FOLDER_PATH "Default_New_Folder/"
-
+#define PATH_NAME "Assets"
 #pragma comment( lib, "External_Libraries/PhysFS/libx86/physfs.lib" )
 
 typedef unsigned int uint;
+
+#include <vector>
+
+struct FileInfo;
 
 
 class ModuleResources : public Module
@@ -33,25 +37,49 @@ public:
 
 
 	
-	void PrintFolders(char* path);
+	void PrintFolders();
 
+	void PathInfo(const char* path);
+
+
+	void AddFolders(const char* path, char** assets);
+	void AddFiles(const char* path, char** assets);
+
+	void DeleteFolder(FileInfo path);
+
+	
 public:
 
 	void CreateFolder(char* path) {
 		PHYSFS_mkdir(path);
-	}
-
-
-	void DeleteFolder(char* path) {
-		PHYSFS_delete(path);
+		refresh = true;
 
 	}
 
+
+	void SetNewPath(const char* path) {
+		newPath = path;
+		PHYSFS_setWriteDir(path);
+		PathInfo(path);
+	}
+
+	void ClearAssetsList() {
+		assetsList.clear();
+	}
+
+	void Refresh() {
+		if (refresh) {
+			PathInfo(newPath.c_str());
+			refresh = false;
+		}
+	}
 private:
-	string pathName = "Assets";
 
+	vector<FileInfo> assetsList;
+
+	string newPath;
 	//const ModuleResources* RequestResource(uint uid) const;
-
+	bool refresh = false;
 
 };
 
