@@ -29,16 +29,17 @@ public:
 
 	void InspectorW() override;
 
-	mat4x4 GetGlobalT() const { return transpose(matrix); }
+	float4x4 GetGlobalT() const { return matrix.Transposed(); }
+	float4x4 GetGlobal() const { return matrix; }
 
 
-	const vec3 GetPosition() { 
-		
-		return position; };
+	
 
 	void ResetTransform();
 
-
+	const float3 GetPosition() {
+		return position;
+	};
 
 
 public:
@@ -64,7 +65,7 @@ public:
 
 	float4x4 globalTransformT;
 
-	mat4x4 matrix;
+	float4x4 matrix;
 
 	/*float3 position;
 	float3 scale;
@@ -72,12 +73,9 @@ public:
 	Quat rotation;*/
 
 
-	vec3 position;
-	vec3 rotation;
-	vec3 scale;
-
-	
-
+	float3 position;
+	float3 rotation;
+	float3 scale;
 
 
 

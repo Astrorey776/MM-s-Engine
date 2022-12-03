@@ -19,10 +19,10 @@ class Application
 public:
 	ModuleWindow* window;
 	ModuleInput* input;
-	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModuleDummy* dummy;
-	//ModuleResources* resources;
+	ModuleRenderer3D* renderer3D;
+	ModuleResources* resources;
 
 private:
 

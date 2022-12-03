@@ -1,5 +1,5 @@
 #include "CameraClass.h"
-
+#include "Globals.h"
 CameraClass::CameraClass()
 {
 
@@ -13,7 +13,7 @@ CameraClass::CameraClass()
 
 	//Mal orden = No va
 	frustumCamera.type = FrustumType::PerspectiveFrustum;
-	frustumCamera.verticalFov = DegToRad(fieldOfView);
+	frustumCamera.verticalFov = DegToRad(60.0);
 	frustumCamera.horizontalFov = 2.0f * atanf(tanf(frustumCamera.verticalFov / 2.0f) * 1.77f);
 	frustumCamera.farPlaneDistance = 600.0f;
 	frustumCamera.nearPlaneDistance = 0.01f;
@@ -22,6 +22,7 @@ CameraClass::CameraClass()
 
 	frustumCamera.pos = this->pos;
 
+	//StartCamBuffer(SCREEN_WIDTH,SCREEN_HEIGHT);
 
 }
 
@@ -37,57 +38,23 @@ void CameraClass::CleanUp()
 
 }
 
-void CameraClass::Look(const float3& position, const float3& reference, bool rotateAroundReference)
-{
-	this->pos = position;
-	this->ref = reference;
-
-	frustumCamera.front = (pos - ref).Normalized();
-	frustumCamera.up = Cross(frustumCamera.front, x);
-	if (!rotateAroundReference) {
-		this->ref = this->pos;
-		this->pos += z * 0.05;
-	}
-
-	//CalculateViewMatrix();
-
-}
-
-void CameraClass::LookAt(const float3& pos)
-{
-	//Why this doesn't work? 
-	frustumCamera.front = (pos - frustumCamera.pos).Normalized();
-	x = Cross(float3(0.0f, 1.0f, 0.0f), frustumCamera.front).Normalized();
-	frustumCamera.up = Cross(frustumCamera.front, x);
-
-}
-
-
-
-float* CameraClass::GetViewMatrix()
-{
-
-	float4x4 tempMatrixView = frustumCamera.ViewMatrix();
-	tempMatrixView.Transpose();
-	return &tempMatrixView.v[0][0];
-}
-
-float* CameraClass::GetProjMatrix()
-{
-	//:(
-	float4x4 tempMatrixProj = frustumCamera.ProjectionMatrix();
-	tempMatrixProj.Transpose();
-	return &tempMatrixProj.v[0][0];
-}
-
-
-void CameraClass::Move(const float3& mov)
-{
-	frustumCamera.pos += mov;
-}
-
 
 void CameraClass::StartCamBuffer(int width, int height)
 {
 	cameraBuffer.StartCamBuffers(width, height);
+}
+
+float4x4 CameraClass::GetViewMatrix()
+{
+	viewMatrix = frustumCamera.ViewMatrix();
+
+	//No this no work
+	viewMatrix.Transpose();
+	return viewMatrix;
+}
+
+float4x4 CameraClass::GetProjectionMatrix()
+{
+	projMatrix = frustumCamera.ProjectionMatrix().Transposed();
+	return projMatrix;
 }

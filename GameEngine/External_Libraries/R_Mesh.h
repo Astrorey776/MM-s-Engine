@@ -8,7 +8,8 @@
 #include "Primitive.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
-#include "glmath.h"
+//#include "glmath.h"
+#include "MathGeoLib.h"
 
 #include <vector>
 
@@ -30,7 +31,7 @@ public:
 		~M_Mesh();
 		
 
-	void meshRenderer(mat4x4, TextureTypes textureT);
+	void meshRenderer(float4x4, TextureTypes textureT, float4x4 global);
 
 
 public:
@@ -48,4 +49,21 @@ public:
 
 
 		uint textureID = 0;
+
+public: 
+
+
+	AABB AABB_;
+	OBB OBB_;
+	AABB global_AABB;
+
+	float3 tempCorn1[8];
+	float3 tempCorn2[8];
+
+	void InitAABB();
+	void RenderAABB();
+	void DrawAABB_Boxes(float3* x, float3 y);
+
+private:
+	vector<float3> tempVert;
 };
