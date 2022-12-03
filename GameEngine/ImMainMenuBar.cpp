@@ -36,7 +36,7 @@ void ImMainMenuBar::Update(Application* App, ImHierarchyWindow* imH)
 
 			if (ImGui::MenuItem(" GitHub ")) {
 
-				ShellExecute(0, 0, "https://github.com/kramtron/Monster-Engine", 0, 0, SW_SHOW);
+				ShellExecute(0, 0, "https://github.com/Astrorey776/MM-s-Engine", 0, 0, SW_SHOW);
 
 			}
 
@@ -153,13 +153,13 @@ void ImMainMenuBar::Update(Application* App, ImHierarchyWindow* imH)
 	if (aboutPU) {
 		if (ImGui::Begin("About", 0, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse))
 		{
-			ImGui::BulletText("Monster Engine is a \ngame engine developed \nby Gerard J. Ramon Catasus.");
+			ImGui::BulletText("MM's Engine is a \ngame engine developed \nby Adrian Martin via Gerard J. Ramon Catasus Engine 'Monster Engine'.");
 			ImGui::BulletText("Drag and Drop to \nimport files.");
 			ImGui::BulletText("Camera controls in \nour GitHub.");
 
 			ImGui::Text("");
 
-			ImGui::BulletText("You can finde more in \nthe GitHub");
+			ImGui::BulletText("You can find more in \nthe GitHub");
 
 			ImGui::End();
 		}
