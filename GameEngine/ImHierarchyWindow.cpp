@@ -8,12 +8,27 @@ Application* ImHierarchyWindow::App = nullptr;
 
 ImHierarchyWindow::ImHierarchyWindow()
 {
-	rootGameObject = new GameObject("Scene", nullptr,"none",nullptr);
+	rootGameObject = new GameObject("Scene", nullptr,"none");
 
-	GameObject* gO = new GameObject("BakerHouse", rootGameObject, "first", MeshLoader::LoadFile("Assets/BakerHouse.fbx"));
-	GameObject* gO2 = new GameObject("Sphere", rootGameObject, "first", MeshLoader::LoadFile("Assets/Sphere.fbx"));
-	GameObject* gO3 = new GameObject("Cube", rootGameObject, "first", MeshLoader::LoadFile("Assets/Cube.fbx"));
+	GameObject* gO = new GameObject("BakerHouse", rootGameObject, "first");
+	MeshLoader::LoadFile("Assets/BakerHouse.fbx",gO);
+	//gO->meshR = (C_Mesh*)gO->AddComponent(Component::Type::Mesh);
+	
+	GameObject* gO4 = new GameObject("Street", rootGameObject, "first");
+	MeshLoader::LoadFile("Assets/street2.FBX", gO4);
+	gO4->transform->rotation = float3(-90.0f,0.0f,0.0f);
+	gO4->transform->TransformToUpdate();
+	
 
+	/*GameObject* gO2 = new GameObject("Sphere", rootGameObject, "first");
+	gO2->meshes = MeshLoader::LoadFile("Assets/Sphere.fbx", gO2);
+	gO2->meshR = (C_Mesh*)gO2->AddComponent(Component::Type::Mesh);
+
+
+	GameObject* gO3 = new GameObject("Cube", rootGameObject, "first");
+	gO3->meshes = MeshLoader::LoadFile("Assets/Cube.fbx", gO3);
+	gO3->meshR = (C_Mesh*)gO3->AddComponent(Component::Type::Mesh);*/
+	//gO3->transform->position.x = 4;
 	referenceGameObject = &App->dummy->gameObjects;
 
 	//referenceGameObject = &App->dummy->gameObjects;
@@ -90,6 +105,7 @@ void ImHierarchyWindow::StartGameObject(GameObject* gO, int iterations)
 	if (ImGui::BeginDragDropTarget()) {
 		if (const ImGuiPayload* imGuiPayLoad = ImGui::AcceptDragDropPayload("GameObject")) {
 			gameObjectDragging->SetParent(gO);
+			gameObjectDragging->parent->RemoveChild(gO);
 			gameObjectDragging = nullptr;
 		}
 		ImGui::EndDragDropTarget();

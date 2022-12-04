@@ -39,9 +39,16 @@ bool ModuleCamera3D::Init()
 	LOG("Setting up the camera");
 	bool ret = true;
 
+
+
+	gameCamera = new CameraClass();
+	gameCamera->frustumCamera.pos = float3(0.0f, 20.0f, 50.0f);
+	gameCamera->LookAt(float3(0.0f, 0.0f, 0.0f));
 	sceneCamera = new CameraClass();
-	sceneCamera->frustumCamera.pos = float3(0.0f, 0.0f, 10.0f);
+	sceneCamera->frustumCamera.pos = float3(0.0f, 20.0f, 50.0f);
+	LookAt(float3(0.0f,0.0f,0.0f));
 	return ret;
+
 }
 
 // -----------------------------------------------------------------
@@ -64,9 +71,9 @@ update_status ModuleCamera3D::Update(float dt)
 	newPos = float3(0, 0, 0);
 	 
 
-	float speed = 300.0f * dt;
+	float speed = 60.0f * dt;
 	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed = 8.0f * dt;
+		speed = 120.0f * dt;
 
 	//Mouse scrolls
 	int dx = -App->input->GetMouseXMotion();
@@ -99,10 +106,10 @@ update_status ModuleCamera3D::Update(float dt)
 	case LOOKINGAT:
 	{
 
-		if (gOpos != nullptr) {
+		/*if (gOpos != nullptr) {
 			LookAt(gOpos->GetPosition());
 
-		}
+		}*/
 		
 		float lenght = float3(sceneCamera->ref - sceneCamera->frustumCamera.pos).Length();
 
@@ -189,6 +196,8 @@ update_status ModuleCamera3D::Update(float dt)
 	}
 			break;
 	case NORMAL:
+	{
+	
 
 		//Wheel click
 		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT) {
@@ -197,8 +206,8 @@ update_status ModuleCamera3D::Update(float dt)
 			newPos -= Y * dy * Sensitivity;*/
 
 			//Is WorldRight no worldMat 
-			sceneCamera->frustumCamera.pos += sceneCamera->frustumCamera.WorldRight() * (speed * dx / 2);
-			sceneCamera->frustumCamera.pos -= sceneCamera->frustumCamera.up * (speed * dy / 2);
+			sceneCamera->frustumCamera.pos += sceneCamera->frustumCamera.WorldRight() * (speed / 2 * dx / 2);
+			sceneCamera->frustumCamera.pos -= sceneCamera->frustumCamera.up * (speed / 2 * dy / 2);
 
 		}
 
@@ -207,11 +216,8 @@ update_status ModuleCamera3D::Update(float dt)
 			sceneCamera->frustumCamera.pos += sceneCamera->frustumCamera.front * speed * -dw;
 
 		}
-
-		/*rmat = sceneCamera->frustumCamera.WorldMatrix();
-		rmat.SetRotatePart(direction.Normalized());
-		sceneCamera->frustumCamera.SetWorldMatrix(rmat.Float3x4Part());*/
-
+		
+	}
 		break;
 	}
 
