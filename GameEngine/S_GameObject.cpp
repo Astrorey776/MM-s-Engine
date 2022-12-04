@@ -1,7 +1,7 @@
 #include "S_GameObject.h"
 #include "ImHierarchyWindow.h"
 #include "T_TextureLoader.h"
-
+#include "C_Camera.h"
 Application* GameObject::App = nullptr;
 
 
@@ -56,6 +56,9 @@ Component* GameObject::AddComponent(Component::Type type)
 		comp = new C_Mesh(this);
 		break;
 	case Component::Type::Light:
+		break;
+	case Component::Type::Camera:
+		comp = new C_Camera(this,App);
 		break;
 	}
 
@@ -147,18 +150,36 @@ void GameObject::RenderM()
 	C_Transform* transform = (C_Transform*)GetComponent(Component::Type::Transform);
 
 	if (mesh != nullptr) {
-		mesh->textureID = App->dummy->textureID;
-		float4x4 tempMat;
+
+		mesh->textureID;//= App->dummy->textureID;
+		float4x4 Mat1;
 		if (renderMesh == true) {
-			if (this->parent == nullptr) tempMat = transform->GetLocal();
+			if (this->parent == nullptr)  Mat1 = transform->GetLocal();
 			else {
-				tempMat = parent->transform->GetGlobal()* transform->GetLocal();
+				Mat1 = parent->transform->GetGlobal()* transform->GetLocal();
 			}
-			mesh->meshRenderer(tempMat.Transposed(), TextureTypes::CHECKERS, tempMat);
+			mesh->meshRenderer(Mat1.Transposed(), TextureTypes::CHECKERS, Mat1);
 		}
 
 		if (renderAABB == true) {
 			mesh->RenderAABB();
 		}
 	}
+}
+
+void GameObject::UpdateAABB()
+{
+
+	float4x4 Mat1;
+
+	if (this->parent == nullptr)  Mat1 = transform->GetLocal();
+	else {
+		Mat1 = transform->GetLocal() * parent->transform->GetGlobal();
+	}
+	mesh->OBB_ = mesh->AABB_;
+
+
+	mesh->OBB_.Transform(Mat1);
+	mesh->global_AABB.SetNegativeInfinity();
+	mesh->global_AABB.Enclose(mesh->OBB_);
 }

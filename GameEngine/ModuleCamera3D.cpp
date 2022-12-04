@@ -44,6 +44,8 @@ bool ModuleCamera3D::Init()
 	gameCamera = new CameraClass();
 	gameCamera->frustumCamera.pos = float3(0.0f, 20.0f, 50.0f);
 	gameCamera->LookAt(float3(0.0f, 0.0f, 0.0f));
+
+
 	sceneCamera = new CameraClass();
 	sceneCamera->frustumCamera.pos = float3(0.0f, 20.0f, 50.0f);
 	LookAt(float3(0.0f,0.0f,0.0f));
@@ -151,8 +153,8 @@ update_status ModuleCamera3D::Update(float dt)
 	case FLYING:
 	{
 		//sceneCamera->ref =  sceneCamera->pos;
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) sceneCamera->frustumCamera.pos -= sceneCamera->frustumCamera.front * speed;
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) sceneCamera->frustumCamera.pos += sceneCamera->frustumCamera.front * speed;
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) sceneCamera->frustumCamera.pos += sceneCamera->frustumCamera.front * speed;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) sceneCamera->frustumCamera.pos -= sceneCamera->frustumCamera.front * speed;
 
 
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) sceneCamera->frustumCamera.pos -= sceneCamera->frustumCamera.WorldRight() * speed;
@@ -295,9 +297,9 @@ void ModuleCamera3D::StopDraw()
 float* ModuleCamera3D::GetProjMatrix()
 {
 
-	float4x4 tempMatrixProj = sceneCamera->frustumCamera.ProjectionMatrix();
-	tempMatrixProj.Transpose();
-	return &tempMatrixProj.v[0][0];
+	float4x4 MatrixProj = sceneCamera->frustumCamera.ProjectionMatrix();
+	MatrixProj.Transpose();
+	return &MatrixProj.v[0][0];
 }
 
 // -----------------------------------------------------------------

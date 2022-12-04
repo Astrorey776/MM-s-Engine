@@ -84,10 +84,10 @@ void ModuleResources::PrintFolders()
 
 			}
 			else {
-				string tempString = NEW_FOLDER_PATH2;
-				tempString = tempString + (" ") + std::to_string(folderCounter) + ("/");
-				const char* tempChar = tempString.c_str();
-				CreateFolder(tempChar);
+				string AString = NEW_FOLDER_PATH2;
+				AString = AString + (" ") + std::to_string(folderCounter) + ("/");
+				const char* Char = AString.c_str();
+				CreateFolder(Char);
 				folderCounter++;
 
 			}
@@ -106,25 +106,25 @@ void ModuleResources::PrintFolders()
 
 
 	for (int i = 0; i < assetsList.size(); i++) {
-		File tempFile = assetsList[i];
+		File AFile = assetsList[i];
 
 		ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding;
 
 		
-		bool TreeNodeEx = ImGui::TreeNodeEx((void*)(intptr_t)&tempFile, treeNodeFlags, tempFile.name.c_str());
+		bool TreeNodeEx = ImGui::TreeNodeEx((void*)(intptr_t)&AFile, treeNodeFlags, AFile.name.c_str());
 
 		if (ImGui::IsItemHovered())
 		{
 			
 			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_::ImGuiMouseButton_Right))
 			{
-				DeleteFolder(tempFile);
+				DeleteFolder(AFile);
 			}
 			
 			else if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_::ImGuiMouseButton_Left))
 			{
-				if (tempFile.folder)
-					SetNewPath(tempFile.path.c_str());
+				if (AFile.folder)
+					SetNewPath(AFile.path.c_str());
 			}
 			
 
@@ -146,10 +146,10 @@ void ModuleResources::AddFolders(const char* path, char** assets)
 {
 
 	for (int i = 0; assets[i] != NULL; i++) {
-		string tempPath = path;
-		tempPath.append("/").append(assets[i]);
-		File tempFile(tempPath);
-		assetsList.push_back(tempFile);
+		string Path = path;
+		Path.append("/").append(assets[i]);
+		File File(Path);
+		assetsList.push_back(File);
 		
 	}
 }

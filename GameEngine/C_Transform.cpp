@@ -22,36 +22,6 @@ C_Transform::~C_Transform()
 
 void C_Transform::TransformToUpdate()
 {
-
-	//Forma final no va aun
-	/*std::vector<C_Transform*> tToUpdate;
-	GetDescendingTransforms(this, tToUpdate);
-
-	rotation = Quat::FromEulerXYX(eRotation.x * DEGTORAD, eRotation.y * DEGTORAD, eRotation.z * DEGTORAD);
-
-	localTransform = float4x4::FromTRS(position, rotation, scale);
-
-	if (!tToUpdate.empty()) {
-		for (size_t i = 0; i < tToUpdate.size(); i++) {
-			if (tToUpdate[i]->gameObject->parent != nullptr) {
-				C_Transform* pTransform = tToUpdate[i]->gameObject->parent->transform;
-
-				if (pTransform != nullptr) {
-					tToUpdate[i]->globalTransform = pTransform->globalTransform * tToUpdate[i]->localTransform;
-					tToUpdate[i]->globalTransformT = tToUpdate[i]->globalTransform.Transposed();
-
-
-				}
-			}
-		}
-	}
-
-	tToUpdate.clear();*/
-
-
-
-	//Parche temporal deebria ser mas limpio
-	//Gracais video de Yt sin tu no funciona esto
 	float rx = rotation.x * DEGTORAD;
 	float ry = rotation.y * DEGTORAD;
 	float rz = rotation.z * DEGTORAD;

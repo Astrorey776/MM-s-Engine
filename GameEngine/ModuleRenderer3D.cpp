@@ -269,6 +269,7 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 
 
 		BindCamerBuffers(App->camera->gameCamera);
+
 		RenderMeshes();
 
 	}
@@ -342,16 +343,21 @@ void ModuleRenderer3D::BindCamerBuffers(CameraClass* cc)
 void ModuleRenderer3D::RenderMeshes()
 {
 
-	//Algo temporal. Esto va en un meshrender component
+	
 	for (int i = 1; i < ImGuiSamples::ImH->referenceGameObject->size(); i++) {
 
 		GameObject* gO = ImGuiSamples::ImH->referenceGameObject->at(i);
 
+		/*gO->UpdateAABB();
+
+			if (App->camera->sceneCamera->FrustumChecker(gO->mesh)) continue;*/
 
 		if (gO->mesh != nullptr && gO->name != "Root") {
 			gO->RenderM();
 		}
 	}
+
+
 }
 
 
