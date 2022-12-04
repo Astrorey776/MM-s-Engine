@@ -2,7 +2,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "ImMainMenuBar.h"
-#include "physfs.h"
+#include "External_Libraries/PhysFS/include/physfs.h"
 #include "T_FileInfo.h"
 #define NEW_FOLDER_PATH "Default_New_Folder/"
 #define PATH_NAME "Assets"

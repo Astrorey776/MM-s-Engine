@@ -673,6 +673,9 @@
     <ClInclude Include="T_FileInfo.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="External_Libraries\PhysFS\include\physfs.h">
+      <Filter>Libraries\PhysFS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Modules">
@@ -731,6 +734,9 @@
     </Filter>
     <Filter Include="Sources\Tools\Camera\CamBuffers">
       <UniqueIdentifier>{2ea804b0-76d6-4e9e-9ccb-b64a8e5cdc02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Libraries\PhysFS">
+      <UniqueIdentifier>{32a2d1e0-d527-4663-8b05-aa009ef2294f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
