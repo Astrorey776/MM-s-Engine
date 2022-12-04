@@ -65,5 +65,5 @@ public:
 	void DrawAABB_Boxes(float3* x, float3 y);
 
 private:
-	vector<float3> AVert;
+	vector<float3> Vert;
 };

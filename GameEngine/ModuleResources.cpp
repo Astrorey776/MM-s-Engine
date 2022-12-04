@@ -64,7 +64,6 @@ void ModuleResources::PathInfo(const char* path)
 	ClearAssetsList();
 
 	AddFolders(path, assets);
-	//AddFolders(path, assets);
 
 	PHYSFS_freeList(assets);
 }
@@ -84,10 +83,10 @@ void ModuleResources::PrintFolders()
 
 			}
 			else {
-				string AString = NEW_FOLDER_PATH2;
-				AString = AString + (" ") + std::to_string(folderCounter) + ("/");
-				const char* Char = AString.c_str();
-				CreateFolder(Char);
+				string name = NEW_FOLDER_PATH2;
+				name = name + (" ") + std::to_string(folderCounter) + ("/");
+				const char* BChar = name.c_str();
+				CreateFolder(BChar);
 				folderCounter++;
 
 			}
@@ -148,8 +147,8 @@ void ModuleResources::AddFolders(const char* path, char** assets)
 	for (int i = 0; assets[i] != NULL; i++) {
 		string Path = path;
 		Path.append("/").append(assets[i]);
-		File File(Path);
-		assetsList.push_back(File);
+		File AFile(Path);
+		assetsList.push_back(AFile);
 		
 	}
 }
@@ -157,7 +156,6 @@ void ModuleResources::AddFolders(const char* path, char** assets)
 void ModuleResources::DeleteFolder(File path)
 {
 	PHYSFS_delete(path.name.c_str());
-	//folderCounter--;
 	refresh = true;
 
 }

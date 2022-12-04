@@ -4,15 +4,9 @@
 #include "imgui.h"
 #include "C_Transform.h"
 #include "CameraClass.h"
-
-//#include "MathGeoLib.h"//Need here? If this activated error in float3.h
-
-//Need more includes for sure
-
 #include "ModuleRenderer3D.h"
 #include "ImHierarchyWindow.h"
 #include "C_Transform.h"
-
 #include "SDL_opengl.h"
 
 
@@ -21,13 +15,6 @@ C_Transform* ModuleCamera3D::gOpos = nullptr;
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	//CalculateViewMatrix();
-
-	
-
-	//newPos = float3(0.0f, 0.0f, 0.0f);
-
-	//sceneCamera = new CameraClass();
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -64,16 +51,12 @@ bool ModuleCamera3D::CleanUp()
 // -----------------------------------------------------------------
 update_status ModuleCamera3D::Update(float dt)
 {
-	// Implement a debug camera with keys and mouse
-	// Now we can make this movememnt frame rate independant!
-
-
 	Quat direction = Quat::identity;
 
 	newPos = float3(0, 0, 0);
 	 
 
-	float speed = 60.0f * dt;
+	float speed = 300.0f * dt;
 	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 120.0f * dt;
 
@@ -122,8 +105,6 @@ update_status ModuleCamera3D::Update(float dt)
 		if (dx != 0)
 		{
 			float DeltaX = (float)dx * Sensitivity;
-
-			//I hate quats
 			Quat x = Quat::identity;
 			x.SetFromAxisAngle(float3(0.0f, 1.0f, 0.0f), DeltaX * DEGTORAD);
 			dir = x * dir;
@@ -146,13 +127,13 @@ update_status ModuleCamera3D::Update(float dt)
 
 		sceneCamera->frustumCamera.pos = sceneCamera->ref + (sceneCamera->frustumCamera.front * -lenght);
 
-		//LOG("camera pos: %d", sceneCamera->frustumCamera.pos.x);
+		
 	}
 		break;
 
 	case FLYING:
 	{
-		//sceneCamera->ref =  sceneCamera->pos;
+		
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) sceneCamera->frustumCamera.pos += sceneCamera->frustumCamera.front * speed;
 		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) sceneCamera->frustumCamera.pos -= sceneCamera->frustumCamera.front * speed;
 
@@ -173,7 +154,6 @@ update_status ModuleCamera3D::Update(float dt)
 		{
 			float DeltaX = (float)dx * Sensitivity;
 
-			//I hate quats
 			Quat x = Quat::identity;
 			x.SetFromAxisAngle(float3(0.0f, 1.0f, 0.0f), DeltaX * DEGTORAD);
 			dir = x * dir;
@@ -200,20 +180,13 @@ update_status ModuleCamera3D::Update(float dt)
 	case NORMAL:
 	{
 	
-
-		//Wheel click
 		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT) {
 
-			/*newPos += X * dx * Sensitivity;
-			newPos -= Y * dy * Sensitivity;*/
-
-			//Is WorldRight no worldMat 
 			sceneCamera->frustumCamera.pos += sceneCamera->frustumCamera.WorldRight() * (speed / 2 * dx / 2);
 			sceneCamera->frustumCamera.pos -= sceneCamera->frustumCamera.up * (speed / 2 * dy / 2);
 
 		}
 
-		//Wheel Scroll
 		if (dw != 0) {
 			sceneCamera->frustumCamera.pos += sceneCamera->frustumCamera.front * speed * -dw;
 
@@ -242,8 +215,6 @@ void ModuleCamera3D::LookAt( const float3 &Spot)
 
 	sceneCamera->ref = Spot;
 
-
-	//Voy a cometer crimenes de guerra como esto no funcione
 	sceneCamera->frustumCamera.front = (Spot - sceneCamera->frustumCamera.pos).Normalized();
 	float3 x = float3(0.0f, 1.0f, 0.0f).Cross(sceneCamera->frustumCamera.front).Normalized();
 	sceneCamera->frustumCamera.up = sceneCamera->frustumCamera.front.Cross(x);
@@ -266,7 +237,6 @@ float* ModuleCamera3D::GetViewMatrix()
 
 	viewMatrix = sceneCamera->frustumCamera.ViewMatrix();
 
-	//No this no work
 	viewMatrix.Transpose();
 	return viewMatrix.ptr();
 }
@@ -284,7 +254,7 @@ void ModuleCamera3D::Draw()
 	//glMatrixMode(GL_MODELVIEW);
 	//glLoadMatrixf(GetViewMatrix());
 
-	//clear so no update depth buffer
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	

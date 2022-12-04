@@ -33,8 +33,8 @@ void MeshLoader::StopDebugMode()
 
 M_Mesh* MeshLoader::LoadFile(string file_path, GameObject* parent = nullptr)
 {
-	uint flags = aiProcess_FlipUVs | aiProcess_Triangulate;
-	const aiScene* scene = aiImportFile(file_path.c_str(), aiProcessPreset_TargetRealtime_MaxQuality | flags);
+	
+	const aiScene* scene = aiImportFile(file_path.c_str(), aiProcessPreset_TargetRealtime_MaxQuality | aiProcess_Triangulate);
 
 	if (scene != nullptr && scene->HasMeshes()) {
 
@@ -194,15 +194,15 @@ M_Mesh* MeshLoader::LoadMeshNode(const aiScene* scene, aiNode* node, GameObject*
 	GameObject* gO = new GameObject(node->mName.C_Str(), parent, "none");
 
 
-	aiMatrix4x4 Mat1 = transform * node->mTransformation;
+	aiMatrix4x4 Mat2 = node->mTransformation;
 	aiVector3D position, scale, rotation;
 	aiQuaternion qrot;
-	Mat1.Decompose(scale, qrot, position);
+	Mat2.Decompose(scale, qrot, position);
 	rotation = qrot.GetEuler();
 
 	gO->transform->scale = float3(scale.x, scale.y, scale.z);
 	gO->transform->rotation = (float3(rotation.x * RADTODEG, rotation.y * RADTODEG, rotation.z * RADTODEG));
-	gO->transform->position = (float3(position.x, position.y, position.z));
+	gO->transform->position = (float3(position.x,  position.z, position.y));
 	//gO->transform->ResetTransform();
 
 	gO->transform->TransformToUpdate();
@@ -231,17 +231,17 @@ M_Mesh* MeshLoader::LoadMeshNode(const aiScene* scene, aiNode* node, GameObject*
 			if (texturePath == "") texturePath = ImportTexture(scene, node->mMeshes[i], file_path);
 
 			
-			/*if (texturePath != "") {
+			if (texturePath != "") {
 
 				gO->mesh->textureID = TextureLoader::LoadTexture(texturePath.c_str());
-			}*/
+			}
 		}
 
 		
 	}
 
 	for (int i = 0; i < node->mNumChildren; i++) {
-		LoadMeshNode(scene, node->mChildren[i],gO, file_path, Mat1);
+		LoadMeshNode(scene, node->mChildren[i],gO, file_path,Mat2);
 	}
 	return nullptr;
 }
@@ -256,7 +256,7 @@ void MeshLoader::Renderer()
 void MeshLoader::CleanUp()
 {
 	for (int i = 0; i < meshes.size(); i++) {
-		delete meshes[i]; //Algo aquí hace que salte error en delete[num_vertices] // 12/10 parece que ya no pero igual es problema a futuro
+		delete meshes[i]; 
 		meshes[i] = nullptr;
 	}
 	meshes.clear();

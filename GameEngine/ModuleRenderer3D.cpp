@@ -2,22 +2,16 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleDummy.h"
-
 #include "ImGuiSamples.h"
 #include "S_GameObject.h"
 #include "ImHierarchyWindow.h"
 #include "T_TextureLoader.h"
-
-//Assimp
 #include "cimport.h"
 #include "scene.h"
 #include "postprocess.h"
-
 #include "glew.h"
-
 #include "SDL_opengl.h"
 #include "Primitive.h"
-
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
@@ -49,9 +43,8 @@ bool ModuleRenderer3D::Init()
 	SDL_GLContext context = SDL_GL_CreateContext(App->window->window);
 	if (context == NULL)
 	{
-		//LOG(LogType::L_ERROR, "OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 
-		LOG("Shit. Open gl doesn't work well :(");
+		LOG("Oh oh, Open gl doesn't work well :(");
 		ret = false;
 	}
 
@@ -60,7 +53,6 @@ bool ModuleRenderer3D::Init()
 	SDL_GL_MakeCurrent(App->window->window, context);
 
 	if (GLEW_OK != err) {
-		/* Problem: glewInit failed, something is seriously wrong. */
 		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
 		LOG("Error: %a\n", glewGetErrorString(err));
 		LOG("HARD ERROR");
@@ -69,8 +61,6 @@ bool ModuleRenderer3D::Init()
 		fprintf(stdout, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
 	}
 
-	
-	
 
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
@@ -171,66 +161,16 @@ bool ModuleRenderer3D::Init()
 	ImGuiSamples::Init();
 
 
-		// Setup Platform/Renderer backends
-	/*ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
-
-	//WRONG¿?
-	const char* glsl_version = "#version 130";
-	ImGui_ImplOpenGL3_Init(glsl_version);*/
-
 	MeshLoader::StartDebugMode();
 
-	
-	//All this now in CamBuffers Class!
+
 
 	App->camera->sceneCamera->StartCamBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
 	App->camera->gameCamera->StartCamBuffer(SCREEN_WIDTH, SCREEN_HEIGHT);
-	/*//Colocar en otro sitio
-	glGenFramebuffers(1, &framebuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);*/
-
-	
-
-	/*// generate texture
-	glGenTextures(1, &textureColorbuffer);
-	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);*/
-
-
-	//float color[4] = {0.1,0.1,0.1,0};
-	/*glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glBindTexture(GL_TEXTURE_2D, 0);*/
-
-
-	
-
-
-	// attach it to currently bound framebuffer object
-	//glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
-
-	/*glGenRenderbuffers(1, &rbo);
-	glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);*/
-
-	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
-
-	/*if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		//App->menus->my_log.AddLog("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
-		LOG("ERROR::FRAMEBUFFER:: Framebuffer is not complete!");
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);*/
-	
-	//App->camera->sceneCamera.cameraBuffer.StartCamBuffers(SCREEN_WIDTH,SCREEN_HEIGHT);
 
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	//No se si va aquí 
-	TextureLoader::Init();
-	TextureLoader::Start();
+
 
 	return ret;
 }
@@ -298,12 +238,6 @@ bool ModuleRenderer3D::CleanUp()
 	ImGuiSamples::CleanUp();
 	App->camera->sceneCamera->CleanUp();
 
-	//En cameraBuffers
-	/*glDeleteFramebuffers(1, &framebuffer);
-	glDeleteTextures(1, &textureColorbuffer);
-	glDeleteRenderbuffers(1, &rbo);
-	*/
-	//
 	SDL_GL_DeleteContext(context);
 
 	return true;
@@ -326,12 +260,6 @@ void ModuleRenderer3D::BindCamerBuffers(CameraClass* cc)
 	glLoadMatrixf((GLfloat*)cc->GetProjectionMatrix().ptr());
 
 
-	/*glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	ProjectionMatrix = perspective(60.0f, (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.125f, 512.0f);
-	glLoadMatrixf(&ProjectionMatrix);*/
-
-
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf((GLfloat*)cc->GetViewMatrix().ptr());
 	glBindFramebuffer(GL_FRAMEBUFFER, cc->cameraBuffer.GetFrameBuffer());
@@ -343,14 +271,11 @@ void ModuleRenderer3D::BindCamerBuffers(CameraClass* cc)
 void ModuleRenderer3D::RenderMeshes()
 {
 
-	
+
 	for (int i = 1; i < ImGuiSamples::ImH->referenceGameObject->size(); i++) {
 
 		GameObject* gO = ImGuiSamples::ImH->referenceGameObject->at(i);
 
-		/*gO->UpdateAABB();
-
-			if (App->camera->sceneCamera->FrustumChecker(gO->mesh)) continue;*/
 
 		if (gO->mesh != nullptr && gO->name != "Root") {
 			gO->RenderM();

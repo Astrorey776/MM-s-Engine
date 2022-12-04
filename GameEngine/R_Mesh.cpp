@@ -15,20 +15,14 @@ M_Mesh::~M_Mesh()
 void M_Mesh::InitAABB()
 {
 	for (size_t i = 0; i < num_vertices * VERTEX_ARGUMENTS; i += VERTEX_ARGUMENTS) {
-		AVert.emplace_back(vertices[i], vertices[i + 1], vertices[i + 2]);
+		Vert.emplace_back(vertices[i], vertices[i + 1], vertices[i + 2]);
 	}
-	AABB_.SetFrom(&AVert[0], AVert.size());
+	AABB_.SetFrom(&Vert[0], Vert.size());
 
 }
 
 void M_Mesh::meshRenderer(float4x4 globalT, TextureTypes textureT, float4x4 global)
 {
-
-	/*OBB_ = AABB_;
-	//Why don't work with transposed?
-	OBB_.Transform(globalT);
-	global_AABB.SetNegativeInfinity();
-	global_AABB.Enclose(OBB_);*/
 
 	glEnable(GL_TEXTURE_COORD_ARRAY);
 	glEnable(GL_TEXTURE_2D);
@@ -64,7 +58,8 @@ void M_Mesh::meshRenderer(float4x4 globalT, TextureTypes textureT, float4x4 glob
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	// Unbind buffers
+
+
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_TEXTURE_COORD_ARRAY);
@@ -91,14 +86,14 @@ void M_Mesh::RenderAABB()
 void M_Mesh::DrawAABB_Boxes(float3* Corn, float3 color)
 {
 
-	int indices[24] = { 0,2,2,6,6,4,4,0,0,1,1,3,3,2,4,5,6,7,5,7,3,7,1,5 };
+	int index[24] = { 0,2,2,6,6,4,4,0,0,1,1,3,3,2,4,5,6,7,5,7,3,7,1,5 };
 
 	glBegin(GL_LINES);
 	glColor3fv(color.ptr());
 
 	for (size_t i = 0; i < 24; i++)
 	{
-		glVertex3fv(Corn[indices[i]].ptr());
+		glVertex3fv(Corn[index[i]].ptr());
 	}
 
 	glColor3f(255.f, 255.f, 255.f);

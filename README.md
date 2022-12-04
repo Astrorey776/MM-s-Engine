@@ -1,15 +1,19 @@
-# Monster Engine
+# MM'S Engine
 
 Welcome to Monster Engine, a video game engine under development by Gerard J. Ramon Catasus, a CITM student.
 As the engine is updated, the readme will be updated to cover all the new features.
 
 Thank you for your attention.
 
-## Creator
+## Original Creator
 
 - Gerard Ramon
     * Github Account: [Gerard Ramon](https://github.com/kramtron)
 
+# Editor
+
+- Adrian Martin
+   *Github Account: [Adrian Martin](https://github.com/Astrorey776)
 ***
 
 ## Libraries Used:
@@ -28,6 +32,8 @@ Thank you for your attention.
 
 &emsp; -&emsp;*[GLMath](https://glmath.sourceforge.net/)*
 
+&emsp; -&emsp;*[PhysFS](https://github.com/icculus/physfs/)*
+
 
 ***
 
@@ -42,7 +48,7 @@ Thank you for your attention.
 ## Windows
 * Drag and drop is enabled to drop fbx and import it to the project.
 
-* Dock the windows were you whant.
+* Dock the windows were you want.
 
 ###  Main Bar
 Here you can find multiple dropdowns: 
@@ -52,9 +58,11 @@ Here you can find multiple dropdowns:
 
 ###  Inspector
 Show the components of the selected GameObject and a cube to Disable/Enable the GameObject.
-* Trnasform with position, rotarion and scale of the object.
+* Transform with position, rotarion and scale of the object.
 * Mesh of the object.
 
+### Camera
+*Added frustum camera
 
 ###  Hierarchy
 * Show the list of the GameObjects in the scene and their parents/chillds.

@@ -24,7 +24,6 @@ GameObject::GameObject(std::string name = "default", GameObject* parent = nullpt
 
 GameObject::~GameObject()
 {
-	//Shouldn't be memory leaks here
 	for (uint i = 0; i < children.size(); i++) {
 		delete children[i];
 		children[i] = nullptr;
@@ -128,7 +127,6 @@ bool GameObject::AddChild(GameObject* c)
 
 	c->parent = this;
 	
-	//Need c.transform
 
 }
 
@@ -154,7 +152,7 @@ void GameObject::RenderM()
 		mesh->textureID;//= App->dummy->textureID;
 		float4x4 Mat1;
 		if (renderMesh == true) {
-			if (this->parent == nullptr)  Mat1 = transform->GetLocal();
+			if (this->parent == nullptr) Mat1 = transform->GetLocal();
 			else {
 				Mat1 = parent->transform->GetGlobal()* transform->GetLocal();
 			}
@@ -170,16 +168,16 @@ void GameObject::RenderM()
 void GameObject::UpdateAABB()
 {
 
-	float4x4 Mat1;
+	float4x4 tempMat;
 
-	if (this->parent == nullptr)  Mat1 = transform->GetLocal();
+	if (this->parent == nullptr) tempMat = transform->GetLocal();
 	else {
-		Mat1 = transform->GetLocal() * parent->transform->GetGlobal();
+		tempMat = transform->GetLocal() * parent->transform->GetGlobal();
 	}
 	mesh->OBB_ = mesh->AABB_;
 
 
-	mesh->OBB_.Transform(Mat1);
+	mesh->OBB_.Transform(tempMat);
 	mesh->global_AABB.SetNegativeInfinity();
 	mesh->global_AABB.Enclose(mesh->OBB_);
 }
