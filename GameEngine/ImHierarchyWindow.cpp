@@ -9,6 +9,7 @@ Application* ImHierarchyWindow::App = nullptr;
 ImHierarchyWindow::ImHierarchyWindow()
 {
 
+	//No se si va aquí 
 	TextureLoader::Init();
 	TextureLoader::Start();
 
@@ -34,7 +35,6 @@ ImHierarchyWindow::ImHierarchyWindow()
 
 	GameObject* gO5 = new GameObject("Main Camera", rootGameObject, "first");
 	gO5->AddComponent(Component::Type::Camera);
-
 
 
 	//gO->meshR = (C_Mesh*)gO->AddComponent(Component::Type::Mesh);

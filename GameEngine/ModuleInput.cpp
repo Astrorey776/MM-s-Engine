@@ -5,8 +5,10 @@
 #include "glmath.h"
 
 #define MAX_KEYS 300
+//#include <experimental/filesystem>
 
 using namespace std;
+//namespace fs = std::experimental::filesystem;
 
 ModuleInput::ModuleInput(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -134,8 +136,11 @@ update_status ModuleInput::PreUpdate(float dt)
 			//const char* fileName_char = fileName.c_str();
 
 			std::string extension = filePath.substr(filePath.find_last_of(".") + 1);
+
+
+			//Arreglar lo antes posible //Done
+			//Poner igual con png cuando texture funcione //TODO
 			
-			//Drag drop fbx
 				if (extension == "fbx" || extension == "FBX")
 				{
 					GameObject* dropedFile = new GameObject(fileName, nullptr, "first");

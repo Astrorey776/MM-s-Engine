@@ -64,6 +64,7 @@ void ModuleResources::PathInfo(const char* path)
 	ClearAssetsList();
 
 	AddFolders(path, assets);
+	//AddFolders(path, assets);
 
 	PHYSFS_freeList(assets);
 }
@@ -83,10 +84,10 @@ void ModuleResources::PrintFolders()
 
 			}
 			else {
-				string name = NEW_FOLDER_PATH2;
-				name = name + (" ") + std::to_string(folderCounter) + ("/");
-				const char* BChar = name.c_str();
-				CreateFolder(BChar);
+				string tempString = NEW_FOLDER_PATH2;
+				tempString = tempString + (" ") + std::to_string(folderCounter) + ("/");
+				const char* tempChar = tempString.c_str();
+				CreateFolder(tempChar);
 				folderCounter++;
 
 			}
@@ -105,25 +106,25 @@ void ModuleResources::PrintFolders()
 
 
 	for (int i = 0; i < assetsList.size(); i++) {
-		File AFile = assetsList[i];
+		File tempFile = assetsList[i];
 
 		ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_FramePadding;
 
 		
-		bool TreeNodeEx = ImGui::TreeNodeEx((void*)(intptr_t)&AFile, treeNodeFlags, AFile.name.c_str());
+		bool TreeNodeEx = ImGui::TreeNodeEx((void*)(intptr_t)&tempFile, treeNodeFlags, tempFile.name.c_str());
 
 		if (ImGui::IsItemHovered())
 		{
 			
 			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_::ImGuiMouseButton_Right))
 			{
-				DeleteFolder(AFile);
+				DeleteFolder(tempFile);
 			}
 			
 			else if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_::ImGuiMouseButton_Left))
 			{
-				if (AFile.folder)
-					SetNewPath(AFile.path.c_str());
+				if (tempFile.folder)
+					SetNewPath(tempFile.path.c_str());
 			}
 			
 
@@ -145,10 +146,10 @@ void ModuleResources::AddFolders(const char* path, char** assets)
 {
 
 	for (int i = 0; assets[i] != NULL; i++) {
-		string Path = path;
-		Path.append("/").append(assets[i]);
-		File AFile(Path);
-		assetsList.push_back(AFile);
+		string tempPath = path;
+		tempPath.append("/").append(assets[i]);
+		File tempFile(tempPath);
+		assetsList.push_back(tempFile);
 		
 	}
 }
@@ -156,6 +157,7 @@ void ModuleResources::AddFolders(const char* path, char** assets)
 void ModuleResources::DeleteFolder(File path)
 {
 	PHYSFS_delete(path.name.c_str());
+	//folderCounter--;
 	refresh = true;
 
 }

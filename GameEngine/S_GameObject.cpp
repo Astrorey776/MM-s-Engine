@@ -24,6 +24,7 @@ GameObject::GameObject(std::string name = "default", GameObject* parent = nullpt
 
 GameObject::~GameObject()
 {
+	//Shouldn't be memory leaks here
 	for (uint i = 0; i < children.size(); i++) {
 		delete children[i];
 		children[i] = nullptr;
@@ -127,6 +128,7 @@ bool GameObject::AddChild(GameObject* c)
 
 	c->parent = this;
 	
+	//Need c.transform
 
 }
 
@@ -150,18 +152,39 @@ void GameObject::RenderM()
 	if (mesh != nullptr) {
 
 		mesh->textureID;//= App->dummy->textureID;
-		float4x4 Mat1;
+		float4x4 tempMat;
 		if (renderMesh == true) {
-			if (this->parent == nullptr) Mat1 = transform->GetLocal();
+			if (this->parent == nullptr) tempMat = transform->GetLocal();
 			else {
-				Mat1 = parent->transform->GetGlobal()* transform->GetLocal();
+				tempMat = parent->transform->GetGlobal()* transform->GetLocal();
 			}
-			mesh->meshRenderer(Mat1.Transposed(), TextureTypes::CHECKERS, Mat1);
+			mesh->meshRenderer(tempMat.Transposed(), TextureTypes::CHECKERS, tempMat);
 		}
 
 		if (renderAABB == true) {
 			mesh->RenderAABB();
 		}
+	}
+}
+
+void GameObject::RenderGameM()
+{
+
+	//C_Transform* transform = this->transform;
+	C_Transform* transform = (C_Transform*)GetComponent(Component::Type::Transform);
+
+	if (mesh != nullptr) {
+
+		mesh->textureID;//= App->dummy->textureID;
+		float4x4 tempMat;
+		if (renderMesh == true) {
+			if (this->parent == nullptr) tempMat = transform->GetLocal();
+			else {
+				tempMat = parent->transform->GetGlobal() * transform->GetLocal();
+			}
+			mesh->meshRenderer(tempMat.Transposed(), TextureTypes::CHECKERS, tempMat);
+		}
+
 	}
 }
 
@@ -175,8 +198,7 @@ void GameObject::UpdateAABB()
 		tempMat = transform->GetLocal() * parent->transform->GetGlobal();
 	}
 	mesh->OBB_ = mesh->AABB_;
-
-
+	//Why don't work with transposed?
 	mesh->OBB_.Transform(tempMat);
 	mesh->global_AABB.SetNegativeInfinity();
 	mesh->global_AABB.Enclose(mesh->OBB_);

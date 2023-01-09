@@ -76,24 +76,24 @@ void CameraClass::LookAt(const float3& Spot)
 bool CameraClass::FrustumChecker(M_Mesh* mesh)
 {
 
-	float3 Points[8];
-	Plane FrustumPlanes[6];
+	float3 tempPoints[8];
+	Plane tempFrustumPlanes[6];
 
 
-	mesh->global_AABB.GetCornerPoints(Points);
-	frustumCamera.GetPlanes(FrustumPlanes);
+	mesh->global_AABB.GetCornerPoints(tempPoints);
+	frustumCamera.GetPlanes(tempFrustumPlanes);
 
 	for (size_t i = 0; i < 6; i++)
 	{
-		int Int = 0;
+		int tempInt = 0;
 
 		for (size_t j = 0; j < 8; j++)
 		{
-			if (FrustumPlanes[i].IsOnPositiveSide(Points[j]))
-				Int++;
+			if (tempFrustumPlanes[i].IsOnPositiveSide(tempPoints[j]))
+				tempInt++;
 		}
 
-		if (Int == 8) {
+		if (tempInt == 8) {
 			return false;
 		}
 	}
@@ -101,5 +101,5 @@ bool CameraClass::FrustumChecker(M_Mesh* mesh)
 	return true;
 
 
-	return false;
+	
 }

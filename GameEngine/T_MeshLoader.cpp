@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "T_FileInfo.h"
-
+#include "ModuleRenderer3D.h"
 
 vector<M_Mesh*> M_Mesh::meshes;
 
@@ -68,7 +68,6 @@ M_Mesh* MeshLoader::LoadFile(string file_path, GameObject* parent = nullptr)
 
 
 			//Esto fuera o no renderiza si un fbx tiene mas de 1 objeto dentro
-			//meshes.push_back(our_mesh);
 			return our_mesh;
 
 		aiReleaseImport(scene);
@@ -179,7 +178,10 @@ M_Mesh* MeshLoader::LoadMesh(aiMesh* importedMesh)
 	glDisableClientState(GL_VERTEX_ARRAY);
 
 	
+	meshes.push_back(our_mesh);
 
+	
+	
 	return our_mesh;
 
 }
@@ -194,10 +196,10 @@ M_Mesh* MeshLoader::LoadMeshNode(const aiScene* scene, aiNode* node, GameObject*
 	GameObject* gO = new GameObject(node->mName.C_Str(), parent, "none");
 
 
-	aiMatrix4x4 Mat2 = node->mTransformation;
+	aiMatrix4x4 tempMat = node->mTransformation;
 	aiVector3D position, scale, rotation;
 	aiQuaternion qrot;
-	Mat2.Decompose(scale, qrot, position);
+	tempMat.Decompose(scale, qrot, position);
 	rotation = qrot.GetEuler();
 
 	gO->transform->scale = float3(scale.x, scale.y, scale.z);
@@ -217,7 +219,7 @@ M_Mesh* MeshLoader::LoadMeshNode(const aiScene* scene, aiNode* node, GameObject*
 		
 
 			M_Mesh* our_mesh = LoadMesh(scene->mMeshes[node->mMeshes[i]]);
-
+			our_mesh->myGO = gO;
 			gO->mesh = our_mesh;
 			gO->meshR = (C_Mesh*)gO->AddComponent(Component::Type::Mesh);
 			
@@ -241,7 +243,7 @@ M_Mesh* MeshLoader::LoadMeshNode(const aiScene* scene, aiNode* node, GameObject*
 	}
 
 	for (int i = 0; i < node->mNumChildren; i++) {
-		LoadMeshNode(scene, node->mChildren[i],gO, file_path,Mat2);
+		LoadMeshNode(scene, node->mChildren[i],gO, file_path,tempMat);
 	}
 	return nullptr;
 }
@@ -256,7 +258,7 @@ void MeshLoader::Renderer()
 void MeshLoader::CleanUp()
 {
 	for (int i = 0; i < meshes.size(); i++) {
-		delete meshes[i]; 
+		delete meshes[i]; //Algo aquí hace que salte error en delete[num_vertices] // 12/10 parece que ya no pero igual es problema a futuro
 		meshes[i] = nullptr;
 	}
 	meshes.clear();

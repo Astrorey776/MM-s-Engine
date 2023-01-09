@@ -31,6 +31,7 @@ public:
 	void BindCamerBuffers(CameraClass* cc);
 
 	void RenderMeshes();
+	void RenderGameMeshes();
 
 public:
 
@@ -45,6 +46,7 @@ public:
 	uint textureColorbuffer;
 	uint rbo;
 	
+	vector<M_Mesh*> rMeshes;
 
 	const char* file_path;
 private: 
