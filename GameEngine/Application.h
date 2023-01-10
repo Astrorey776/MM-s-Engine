@@ -10,6 +10,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleDummy.h"
 #include "ModuleResources.h"
+#include "ModulePhysics.h"
 
 
 
@@ -23,6 +24,7 @@ public:
 	ModuleDummy* dummy;
 	ModuleRenderer3D* renderer3D;
 	ModuleResources* resources;
+	ModulePhysics3D* physics;
 
 private:
 

@@ -12,6 +12,8 @@ Application::Application()
 	dummy = new ModuleDummy(this);
 	renderer3D = new ModuleRenderer3D(this);
 	resources = new ModuleResources(this);
+	physics = new ModulePhysics3D(this);
+
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
