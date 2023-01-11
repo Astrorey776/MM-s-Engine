@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "Globals.h"
 #include "ModulePhysics.h"
+#include "PhysBody3D.h"
+#include "PhysVehicle3D.h"
 
 #ifdef _DEBUG
 #pragma comment (lib, "External_Libraries/Bullet/libx86/BulletDynamics_debug.lib")
@@ -93,6 +95,21 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 // ---------------------------------------------------------
 update_status ModulePhysics3D::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		debug = !debug;
+
+	if (debug == true)
+	{
+		world->debugDrawWorld();
+
+		// Render vehicles
+		p2List_item<PhysVehicle3D*>* item = vehicles.getFirst();
+		while (item)
+		{
+			item->data->Render();
+			item = item->next;
+		}
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -105,6 +122,45 @@ update_status ModulePhysics3D::PostUpdate(float dt)
 // Called before quitting
 bool ModulePhysics3D::CleanUp()
 {
+	LOG("Destroying 3D Physics simulation");
+
+	// Remove from the world all collision bodies
+	for (int i = world->getNumCollisionObjects() - 1; i >= 0; i--)
+	{
+		btCollisionObject* obj = world->getCollisionObjectArray()[i];
+		world->removeCollisionObject(obj);
+	}
+
+	for (p2List_item<btTypedConstraint*>* item = constraints.getFirst(); item; item = item->next)
+	{
+		world->removeConstraint(item->data);
+		delete item->data;
+	}
+
+	constraints.clear();
+
+	for (p2List_item<btDefaultMotionState*>* item = motions.getFirst(); item; item = item->next)
+		delete item->data;
+
+	motions.clear();
+
+	for (p2List_item<btCollisionShape*>* item = shapes.getFirst(); item; item = item->next)
+		delete item->data;
+
+	shapes.clear();
+
+	for (p2List_item<PhysBody3D*>* item = bodies.getFirst(); item; item = item->next)
+		delete item->data;
+
+	bodies.clear();
+
+	for (p2List_item<PhysVehicle3D*>* item = vehicles.getFirst(); item; item = item->next)
+		delete item->data;
+
+	vehicles.clear();
+
+	delete vehicle_raycaster;
+	delete world;
 	return true;
 }
 
