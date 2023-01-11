@@ -223,6 +223,9 @@
     <ClCompile Include="ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="PhysBody3D.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -1352,6 +1355,9 @@
     </ClInclude>
     <ClInclude Include="ModulePhysics.h">
       <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysBody3D.h">
+      <Filter>Sources\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 
 class Application;
+struct PhysBody3D;
 
 class Module
 {
@@ -46,5 +47,6 @@ public:
 		return true; 
 	}
 
-	//virtual void OnCollision()
+	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+	{}
 };

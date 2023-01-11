@@ -30,9 +30,9 @@ public:
 	bool CleanUp();
 
 	//PhysBody3D* AddBody(const Sphere& sphere, float mass = 1.0f);
-	PhysBody3D* AddBody(const Cube& cube, float mass = 1.0f);
-	//PhysBody3D* AddBody(const Cylinder& cylinder, float mass = 1.0f);
-	//PhysSensor3D* AddSensor(const Cube& cube, const vec3, const SensorType, vec4);
+	PhysBody3D* AddBody(const CubeA& cube, float mass = 1.0f);
+	PhysBody3D* AddBody(const CylinderA& cylinder, float mass = 1.0f);
+	//PhysSensor3D* AddSensor(const CubeA& cube, const vec3, const SensorType, vec4);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 	PhysVehicle3D* GetVehicle(int);
 
@@ -67,7 +67,7 @@ class DebugDrawer : public btIDebugDraw
 {
 public:
 	//Error ambiguo
-	//DebugDrawer() : line(0, 0, 0){}
+	DebugDrawer() : line(0, 0, 0){}
 	
 
 	void drawLine(const btVector3& from, const btVector3& to, const btVector3& color);
@@ -80,6 +80,6 @@ public:
 	DebugDrawModes mode;
 	
 	//Error ambiguo
-	//Line line;
+	LineA line;
 	Primitive point;
 };
