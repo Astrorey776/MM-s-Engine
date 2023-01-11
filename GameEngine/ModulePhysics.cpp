@@ -22,7 +22,7 @@ ModulePhysics3D::ModulePhysics3D(Application* app, bool start_enabled) : Module(
 	solver = new btSequentialImpulseConstraintSolver();
 
 	//Error ambiguo
-	//debug_draw = new DebugDrawer();
+	debug_draw = new DebugDrawer();
 }
 
 // Destructor
@@ -106,4 +106,40 @@ update_status ModulePhysics3D::PostUpdate(float dt)
 bool ModulePhysics3D::CleanUp()
 {
 	return true;
+}
+
+// =============================================
+void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
+{
+	line.origin.Set(from.getX(), from.getY(), from.getZ());
+	line.destination.Set(to.getX(), to.getY(), to.getZ());
+	line.color.Set(color.getX(), color.getY(), color.getZ());
+	line.Render();
+}
+
+void DebugDrawer::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
+{
+	point.transform.translate(PointOnB.getX(), PointOnB.getY(), PointOnB.getZ());
+	point.color.Set(color.getX(), color.getY(), color.getZ());
+	point.Render();
+}
+
+void DebugDrawer::reportErrorWarning(const char* warningString)
+{
+	LOG("Bullet warning: %s", warningString);
+}
+
+void DebugDrawer::draw3dText(const btVector3& location, const char* textString)
+{
+	LOG("Bullet draw text: %s", textString);
+}
+
+void DebugDrawer::setDebugMode(int debugMode)
+{
+	mode = (DebugDrawModes)debugMode;
+}
+
+int	 DebugDrawer::getDebugMode() const
+{
+	return mode;
 }
