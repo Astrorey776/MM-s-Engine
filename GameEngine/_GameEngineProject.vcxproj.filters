@@ -226,6 +226,9 @@
     <ClCompile Include="PhysBody3D.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="PhysVehicle3D.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -1357,6 +1360,9 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="PhysBody3D.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysVehicle3D.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
   </ItemGroup>
