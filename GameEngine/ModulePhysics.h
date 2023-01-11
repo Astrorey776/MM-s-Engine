@@ -29,7 +29,7 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	//PhysBody3D* AddBody(const Sphere& sphere, float mass = 1.0f);
+	PhysBody3D* AddBody(const SphereA& sphere, float mass = 1.0f);
 	PhysBody3D* AddBody(const CubeA& cube, float mass = 1.0f);
 	PhysBody3D* AddBody(const CylinderA& cylinder, float mass = 1.0f);
 	//PhysSensor3D* AddSensor(const CubeA& cube, const vec3, const SensorType, vec4);
