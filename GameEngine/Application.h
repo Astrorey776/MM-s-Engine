@@ -11,6 +11,7 @@
 #include "ModuleDummy.h"
 #include "ModuleResources.h"
 #include "ModulePhysics.h"
+#include "ModulePlayer.h"
 
 
 
@@ -25,6 +26,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleResources* resources;
 	ModulePhysics3D* physics;
+	ModulePlayer* player;
 
 private:
 
