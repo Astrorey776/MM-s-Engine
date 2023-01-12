@@ -15,12 +15,13 @@ ModulePlayer::~ModulePlayer()
 // Load assets
 bool ModulePlayer::Start()
 {
-	
+	return true;
 }
 
 // Unload assets
 bool ModulePlayer::CleanUp()
 {
+	return true;
 }
 
 update_status ModulePlayer::PreUpdate(float dt)
