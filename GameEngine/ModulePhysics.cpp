@@ -92,6 +92,11 @@ update_status ModulePhysics3D::PreUpdate(float dt)
 	return UPDATE_CONTINUE;
 }
 
+void ModulePhysics3D::SetGravity(const vec3 v)
+{
+	world->setGravity({ v.x, v.y, v.z });
+}
+
 // ---------------------------------------------------------
 update_status ModulePhysics3D::Update(float dt)
 {
